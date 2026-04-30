@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -5,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
@@ -26,6 +29,33 @@ List<Widget> buildClientSettingsDownload(BuildContext context, WidgetRef ref, Fu
 
   return [
     if (canSync && !kIsWeb) ...[
+      if (!kIsWeb && Platform.isAndroid) ...[
+        ...settingsListGroup(
+          context,
+          SettingsLabelDivider(label: context.localized.androidStorageLocation),
+          [
+            SettingsListTile(
+              label: Text(context.localized.androidStorageLocation),
+              subLabel: Text(ref.watch(syncProvider.notifier).resolvedMobilePath ?? "-"),
+              trailing: DropdownButton<AndroidStorageLocation>(
+                value: clientSettings.androidStorageLocation,
+                underline: const SizedBox.shrink(),
+                items: AndroidStorageLocation.values
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e.label(context))))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                    ref
+                        .read(clientSettingsProvider.notifier)
+                        .update((c) => c.copyWith(androidStorageLocation: value));
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+      ],
       ...settingsListGroup(
         context,
         SettingsLabelDivider(label: context.localized.downloadsTitle),

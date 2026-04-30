@@ -37,6 +37,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
   bool get expandSideBar;
   bool get showAllCollectionTypes;
   int get maxConcurrentDownloads;
+  AndroidStorageLocation get androidStorageLocation;
   DynamicSchemeVariant get schemeVariant;
   BackgroundType get backgroundImage;
   bool get enableBlurEffects;
@@ -89,6 +90,8 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
           DiagnosticsProperty('showAllCollectionTypes', showAllCollectionTypes))
       ..add(
           DiagnosticsProperty('maxConcurrentDownloads', maxConcurrentDownloads))
+      ..add(
+          DiagnosticsProperty('androidStorageLocation', androidStorageLocation))
       ..add(DiagnosticsProperty('schemeVariant', schemeVariant))
       ..add(DiagnosticsProperty('backgroundImage', backgroundImage))
       ..add(DiagnosticsProperty('enableBlurEffects', enableBlurEffects))
@@ -103,7 +106,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, transcodeDownloadModel: $transcodeDownloadModel, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, transcodeDownloadModel: $transcodeDownloadModel, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, androidStorageLocation: $androidStorageLocation, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -136,6 +139,7 @@ abstract mixin class $ClientSettingsModelCopyWith<$Res> {
       bool expandSideBar,
       bool showAllCollectionTypes,
       int maxConcurrentDownloads,
+      AndroidStorageLocation androidStorageLocation,
       DynamicSchemeVariant schemeVariant,
       BackgroundType backgroundImage,
       bool enableBlurEffects,
@@ -185,6 +189,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
     Object? expandSideBar = null,
     Object? showAllCollectionTypes = null,
     Object? maxConcurrentDownloads = null,
+    Object? androidStorageLocation = null,
     Object? schemeVariant = null,
     Object? backgroundImage = null,
     Object? enableBlurEffects = null,
@@ -285,6 +290,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
           ? _self.maxConcurrentDownloads
           : maxConcurrentDownloads // ignore: cast_nullable_to_non_nullable
               as int,
+      androidStorageLocation: null == androidStorageLocation
+          ? _self.androidStorageLocation
+          : androidStorageLocation // ignore: cast_nullable_to_non_nullable
+              as AndroidStorageLocation,
       schemeVariant: null == schemeVariant
           ? _self.schemeVariant
           : schemeVariant // ignore: cast_nullable_to_non_nullable
@@ -456,6 +465,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             bool expandSideBar,
             bool showAllCollectionTypes,
             int maxConcurrentDownloads,
+            AndroidStorageLocation androidStorageLocation,
             DynamicSchemeVariant schemeVariant,
             BackgroundType backgroundImage,
             bool enableBlurEffects,
@@ -495,6 +505,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.expandSideBar,
             _that.showAllCollectionTypes,
             _that.maxConcurrentDownloads,
+            _that.androidStorageLocation,
             _that.schemeVariant,
             _that.backgroundImage,
             _that.enableBlurEffects,
@@ -548,6 +559,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             bool expandSideBar,
             bool showAllCollectionTypes,
             int maxConcurrentDownloads,
+            AndroidStorageLocation androidStorageLocation,
             DynamicSchemeVariant schemeVariant,
             BackgroundType backgroundImage,
             bool enableBlurEffects,
@@ -586,6 +598,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.expandSideBar,
             _that.showAllCollectionTypes,
             _that.maxConcurrentDownloads,
+            _that.androidStorageLocation,
             _that.schemeVariant,
             _that.backgroundImage,
             _that.enableBlurEffects,
@@ -638,6 +651,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             bool expandSideBar,
             bool showAllCollectionTypes,
             int maxConcurrentDownloads,
+            AndroidStorageLocation androidStorageLocation,
             DynamicSchemeVariant schemeVariant,
             BackgroundType backgroundImage,
             bool enableBlurEffects,
@@ -676,6 +690,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.expandSideBar,
             _that.showAllCollectionTypes,
             _that.maxConcurrentDownloads,
+            _that.androidStorageLocation,
             _that.schemeVariant,
             _that.backgroundImage,
             _that.enableBlurEffects,
@@ -719,6 +734,7 @@ class _ClientSettingsModel extends ClientSettingsModel
       this.expandSideBar = false,
       this.showAllCollectionTypes = false,
       this.maxConcurrentDownloads = 2,
+      this.androidStorageLocation = AndroidStorageLocation.internal,
       this.schemeVariant = DynamicSchemeVariant.rainbow,
       this.backgroundImage = BackgroundType.blurred,
       this.enableBlurEffects = false,
@@ -796,6 +812,9 @@ class _ClientSettingsModel extends ClientSettingsModel
   @override
   @JsonKey()
   final int maxConcurrentDownloads;
+  @override
+  @JsonKey()
+  final AndroidStorageLocation androidStorageLocation;
   @override
   @JsonKey()
   final DynamicSchemeVariant schemeVariant;
@@ -876,6 +895,8 @@ class _ClientSettingsModel extends ClientSettingsModel
           DiagnosticsProperty('showAllCollectionTypes', showAllCollectionTypes))
       ..add(
           DiagnosticsProperty('maxConcurrentDownloads', maxConcurrentDownloads))
+      ..add(
+          DiagnosticsProperty('androidStorageLocation', androidStorageLocation))
       ..add(DiagnosticsProperty('schemeVariant', schemeVariant))
       ..add(DiagnosticsProperty('backgroundImage', backgroundImage))
       ..add(DiagnosticsProperty('enableBlurEffects', enableBlurEffects))
@@ -890,7 +911,7 @@ class _ClientSettingsModel extends ClientSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel.internal(syncPath: $syncPath, transcodeDownloadModel: $transcodeDownloadModel, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel.internal(syncPath: $syncPath, transcodeDownloadModel: $transcodeDownloadModel, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, androidStorageLocation: $androidStorageLocation, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -925,6 +946,7 @@ abstract mixin class _$ClientSettingsModelCopyWith<$Res>
       bool expandSideBar,
       bool showAllCollectionTypes,
       int maxConcurrentDownloads,
+      AndroidStorageLocation androidStorageLocation,
       DynamicSchemeVariant schemeVariant,
       BackgroundType backgroundImage,
       bool enableBlurEffects,
@@ -975,6 +997,7 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
     Object? expandSideBar = null,
     Object? showAllCollectionTypes = null,
     Object? maxConcurrentDownloads = null,
+    Object? androidStorageLocation = null,
     Object? schemeVariant = null,
     Object? backgroundImage = null,
     Object? enableBlurEffects = null,
@@ -1075,6 +1098,10 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
           ? _self.maxConcurrentDownloads
           : maxConcurrentDownloads // ignore: cast_nullable_to_non_nullable
               as int,
+      androidStorageLocation: null == androidStorageLocation
+          ? _self.androidStorageLocation
+          : androidStorageLocation // ignore: cast_nullable_to_non_nullable
+              as AndroidStorageLocation,
       schemeVariant: null == schemeVariant
           ? _self.schemeVariant
           : schemeVariant // ignore: cast_nullable_to_non_nullable

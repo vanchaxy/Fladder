@@ -35,6 +35,16 @@ enum GlobalHotKeys {
   }
 }
 
+enum AndroidStorageLocation {
+  internal,
+  sdCard;
+
+  String label(BuildContext context) => switch (this) {
+        AndroidStorageLocation.internal => context.localized.androidStorageInternal,
+        AndroidStorageLocation.sdCard => context.localized.androidStorageSdCard,
+      };
+}
+
 enum BackgroundType {
   disabled,
   enabled,
@@ -84,6 +94,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool expandSideBar,
     @Default(false) bool showAllCollectionTypes,
     @Default(2) int maxConcurrentDownloads,
+    @Default(AndroidStorageLocation.internal) AndroidStorageLocation androidStorageLocation,
     @Default(DynamicSchemeVariant.rainbow) DynamicSchemeVariant schemeVariant,
     @Default(BackgroundType.blurred) BackgroundType backgroundImage,
     @Default(false) bool enableBlurEffects,

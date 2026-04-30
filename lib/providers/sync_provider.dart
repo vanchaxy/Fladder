@@ -16,6 +16,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/api_result.dart';
+import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
@@ -62,6 +63,9 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   final Directory mobileDirectory;
   final String subPath = "Synced";
 
+  String? _resolvedMobilePath;
+  String? _lastEnsuredSaveDirectoryPath;
+
   bool updatingSyncStatus = false;
 
   StreamSubscription<List<SyncedItem>>? _subscription;
@@ -96,8 +100,40 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     }
   }
 
-  void _init() {
+  Future<void> _resolveMobilePath() async {
+    if (kIsWeb) return;
+    if (!Platform.isAndroid) {
+      _resolvedMobilePath = mobileDirectory.path;
+      return;
+    }
+    final location = ref.read(clientSettingsProvider.select((s) => s.androidStorageLocation));
+    if (location == AndroidStorageLocation.sdCard) {
+      try {
+        final dirs = await getExternalStorageDirectories();
+        if (dirs != null && dirs.isNotEmpty) {
+          final sdCard = dirs.firstWhere(
+            (d) => !d.path.contains('/storage/emulated/'),
+            orElse: () => dirs.first,
+          );
+          _resolvedMobilePath = sdCard.path;
+          _lastEnsuredSaveDirectoryPath = null; // force re-create on new path
+          return;
+        }
+      } catch (_) {}
+    }
+    _resolvedMobilePath = mobileDirectory.path;
+    _lastEnsuredSaveDirectoryPath = null;
+  }
+
+  void _init() async {
+    _resolvedMobilePath = mobileDirectory.path;
+    unawaited(_resolveMobilePath()); // resolve in background — don't delay startup
     cleanupTemporaryFiles();
+    ref.listen(
+      clientSettingsProvider.select((s) => s.androidStorageLocation),
+      (_, __) async => _resolveMobilePath(),
+      fireImmediately: false,
+    );
     ref.listen(
       userProvider,
       (previous, next) {
@@ -203,9 +239,11 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
   String? get _savePath => !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
       ? ref.read(clientSettingsProvider.select((value) => value.syncPath))
-      : mobileDirectory.path;
+      : _resolvedMobilePath ?? mobileDirectory.path;
 
   String? get savePath => _savePath;
+
+  String? get resolvedMobilePath => _resolvedMobilePath;
 
   Directory get mainDirectory => Directory(path.joinAll([_savePath ?? "", subPath]));
 
@@ -214,21 +252,35 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     final directory = _savePath != null
         ? Directory(path.joinAll([_savePath ?? "", subPath, ref.read(userProvider)?.id ?? "UnknownUser"]))
         : null;
-    directory?.createSync(recursive: true);
-    if (directory?.existsSync() == true) {
-      final noMedia = File(path.joinAll([directory?.path ?? "", ".nomedia"]));
-      noMedia.writeAsString('');
+    if (directory != null && _lastEnsuredSaveDirectoryPath != directory.path) {
+      // Never createSync here — SD card I/O blocks the Dart isolate and causes ANR.
+      // Schedule async creation and update the cache once done.
+      unawaited(_ensureSaveDirectory(directory));
     }
     return directory;
+  }
+
+  Future<void> _ensureSaveDirectory(Directory directory) async {
+    await directory.create(recursive: true);
+    _lastEnsuredSaveDirectoryPath = directory.path;
+    await File(path.joinAll([directory.path, ".nomedia"])).writeAsString('');
   }
 
   String? get syncPath => saveDirectory?.path;
 
   Future<int> get directorySize async {
-    if (saveDirectory == null) return 0;
-    var files = await saveDirectory!.list(recursive: true).toList();
-    var dirSize = files.fold(0, (int sum, file) => sum + file.statSync().size);
-    return dirSize;
+    final dir = saveDirectory;
+    if (dir == null) return 0;
+    try {
+      final files = await dir.list(recursive: true).toList();
+      var dirSize = 0;
+      for (final file in files) {
+        dirSize += (await file.stat()).size;
+      }
+      return dirSize;
+    } on FileSystemException {
+      return 0;
+    }
   }
 
   @override

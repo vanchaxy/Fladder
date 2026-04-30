@@ -46,6 +46,10 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       showAllCollectionTypes: json['showAllCollectionTypes'] as bool? ?? false,
       maxConcurrentDownloads:
           (json['maxConcurrentDownloads'] as num?)?.toInt() ?? 2,
+      androidStorageLocation: $enumDecodeNullable(
+              _$AndroidStorageLocationEnumMap,
+              json['androidStorageLocation']) ??
+          AndroidStorageLocation.internal,
       schemeVariant: $enumDecodeNullable(
               _$DynamicSchemeVariantEnumMap, json['schemeVariant']) ??
           DynamicSchemeVariant.rainbow,
@@ -92,6 +96,8 @@ Map<String, dynamic> _$ClientSettingsModelToJson(
       'expandSideBar': instance.expandSideBar,
       'showAllCollectionTypes': instance.showAllCollectionTypes,
       'maxConcurrentDownloads': instance.maxConcurrentDownloads,
+      'androidStorageLocation':
+          _$AndroidStorageLocationEnumMap[instance.androidStorageLocation]!,
       'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
       'backgroundImage': _$BackgroundTypeEnumMap[instance.backgroundImage]!,
       'enableBlurEffects': instance.enableBlurEffects,
@@ -127,6 +133,11 @@ const _$ColorThemesEnumMap = {
   ColorThemes.purple: 'purple',
   ColorThemes.deepPurple: 'deepPurple',
   ColorThemes.blueGrey: 'blueGrey',
+};
+
+const _$AndroidStorageLocationEnumMap = {
+  AndroidStorageLocation.internal: 'internal',
+  AndroidStorageLocation.sdCard: 'sdCard',
 };
 
 const _$DynamicSchemeVariantEnumMap = {
